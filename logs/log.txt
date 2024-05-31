@@ -1,0 +1,8 @@
+2024-05-31 19:13:04,812 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-05-31 19:14:33,477 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+

@@ -15,8 +15,8 @@ public class User {
     private String username;
     private String password;
     private String roles;
-    @OneToMany
-    private List<Product> shoppingCart;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private ShoppingCart shoppingCart;
 
     public User() {
     }
@@ -25,14 +25,14 @@ public class User {
         this.username = username;
         this.password = password;
         this.roles = "USER";
-        this.shoppingCart = new ArrayList<>();
+        this.shoppingCart = new ShoppingCart();
     }
 
     public User(String username, String password, String roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
-        this.shoppingCart = new ArrayList<>();
+        this.shoppingCart = new ShoppingCart();
     }
 
     public long getId() {
@@ -59,11 +59,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Product> getShoppingCart() {
+    public ShoppingCart getShoppingCart() {
         return shoppingCart;
     }
 
-    public void setShoppingCart(List<Product> shoppingCart) {
+    public void setShoppingCart(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
 
@@ -75,11 +75,5 @@ public class User {
         this.roles = roles;
     }
 
-    public void addProductToCart(Product product) {
-        shoppingCart.add(product);
-    }
 
-    public void removeProductFromCart(Product product) {
-        shoppingCart.remove(product);
-    }
 }
