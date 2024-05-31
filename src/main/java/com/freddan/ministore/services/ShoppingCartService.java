@@ -2,6 +2,7 @@ package com.freddan.ministore.services;
 
 import com.freddan.ministore.entities.Product;
 import com.freddan.ministore.entities.ShoppingCart;
+import com.freddan.ministore.entities.ShoppingCartItem;
 import com.freddan.ministore.entities.User;
 import com.freddan.ministore.repositories.ShoppingCartRepository;
 import org.apache.log4j.Logger;
@@ -18,10 +19,12 @@ public class ShoppingCartService {
     private ProductService productService;
     private UserService userService;
     private ShoppingCartRepository shoppingCartRepository;
+    private ShoppingCartItemService shoppingCartItemService;
 
     @Autowired
-    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository, ProductService productService, UserService userService) {
+    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository, ShoppingCartItemService shoppingCartItemService, ProductService productService, UserService userService) {
         this.shoppingCartRepository = shoppingCartRepository;
+        this.shoppingCartItemService = shoppingCartItemService;
         this.productService = productService;
         this.userService = userService;
     }
@@ -30,7 +33,7 @@ public class ShoppingCartService {
         return shoppingCartRepository.findAll();
     }
 
-    public List addProductToCart(long id, long productId) {
+    public List addProductToCart(long id, long productId, int quantity) {
         User existingUser = userService.findUserById(id);
         Product existingProduct = productService.findProductById(productId);
 
@@ -43,12 +46,15 @@ public class ShoppingCartService {
 
                 ShoppingCart shoppingCart = existingUser.getShoppingCart();
 
-                if (product.getQuantity() > 0) {
+                if (quantity <= product.getQuantity()) {
 
-                    product.setQuantity(product.getQuantity() - 1);
+                    product.setQuantity(product.getQuantity() - quantity);
 
-                    shoppingCart.addProduct(product);
+                    ShoppingCartItem shoppingCartItem = new ShoppingCartItem(product.getName(),quantity);
 
+                    shoppingCart.addProduct(shoppingCartItem);
+
+                    shoppingCartItemService.saveOrUpdate(shoppingCartItem);
                     shoppingCartRepository.save(shoppingCart);
 
                     System.out.println(product.getName() + " added to cart");

@@ -26,7 +26,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/addtouser/{id}")
-    public ResponseEntity<List> addProductToCart(@PathVariable long id, @RequestParam("productId") long productId) {
-        return ResponseEntity.ok(shoppingCartService.addProductToCart(id, productId));
+    public ResponseEntity<List> addProductToCart(@PathVariable long id, @RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
+        return ResponseEntity.ok(shoppingCartService.addProductToCart(id, productId, quantity));
     }
 }
