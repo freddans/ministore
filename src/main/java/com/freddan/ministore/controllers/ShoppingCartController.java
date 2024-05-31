@@ -1,7 +1,6 @@
 package com.freddan.ministore.controllers;
 
 import com.freddan.ministore.entities.ShoppingCart;
-import com.freddan.ministore.services.ProductService;
 import com.freddan.ministore.services.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

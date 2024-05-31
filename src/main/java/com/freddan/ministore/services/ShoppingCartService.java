@@ -4,13 +4,11 @@ import com.freddan.ministore.entities.Product;
 import com.freddan.ministore.entities.ShoppingCart;
 import com.freddan.ministore.entities.ShoppingCartItem;
 import com.freddan.ministore.entities.User;
-import com.freddan.ministore.repositories.ShoppingCartItemRepository;
 import com.freddan.ministore.repositories.ShoppingCartRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

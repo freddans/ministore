@@ -1,6 +1,5 @@
 package com.freddan.ministore.controllers;
 
-import com.freddan.ministore.entities.Product;
 import com.freddan.ministore.entities.User;
 import com.freddan.ministore.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
