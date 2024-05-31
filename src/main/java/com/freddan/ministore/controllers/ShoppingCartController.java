@@ -29,4 +29,9 @@ public class ShoppingCartController {
     public ResponseEntity<String> addProductToCart(@PathVariable long id, @RequestParam("productId") long productId, @RequestParam("quantity") int quantity) {
         return ResponseEntity.ok(shoppingCartService.addProductToCart(id, productId, quantity));
     }
+
+    @PostMapping("/removefromuser/{id}")
+    public ResponseEntity<String> removeProductFromCart(@PathVariable long id, @RequestParam("shoppingCartItemId") long shoppingCartItemId, @RequestParam("quantity") int quantity) {
+        return ResponseEntity.ok(shoppingCartService.removeProductFromCart(id, shoppingCartItemId, quantity));
+    }
 }

@@ -130,3 +130,71 @@ Provided Username: user2
 ERROR: Product with provided ID does not exist.
 Provided ID: 1
 
+2024-05-31 22:55:52,015 * ERROR * com.freddan.ministore.services.UserService * findUserById * 
+ERROR: User with provided ID does not exist.
+Provided ID: 1
+
+2024-05-31 22:56:10,715 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-05-31 22:56:16,496 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user2
+
+2024-05-31 23:06:46,424 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-05-31 23:06:48,983 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user2
+
+2024-05-31 23:08:00,342 * ERROR * com.freddan.ministore.services.UserService * findUserById * 
+ERROR: User with provided ID does not exist.
+Provided ID: 5
+
+2024-05-31 23:08:59,736 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-05-31 23:09:03,761 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user2
+
+2024-05-31 23:12:21,164 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-05-31 23:12:23,976 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user2
+
+2024-05-31 23:12:40,183 * ERROR * com.freddan.ministore.services.ProductService * addProductToCart * 
+ERROR: Product with provided ID does not exist.
+Provided ID: 2
+
+2024-05-31 23:15:51,603 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-05-31 23:15:54,043 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user2
+
+2024-05-31 23:19:27,702 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-05-31 23:19:30,469 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user2
+
+2024-05-31 23:22:52,322 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-05-31 23:22:55,763 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user1
+

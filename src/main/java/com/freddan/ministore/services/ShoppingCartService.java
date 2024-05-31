@@ -4,6 +4,7 @@ import com.freddan.ministore.entities.Product;
 import com.freddan.ministore.entities.ShoppingCart;
 import com.freddan.ministore.entities.ShoppingCartItem;
 import com.freddan.ministore.entities.User;
+import com.freddan.ministore.repositories.ShoppingCartItemRepository;
 import com.freddan.ministore.repositories.ShoppingCartRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,6 +149,87 @@ public class ShoppingCartService {
 
             return "ERROR: User with provided ID does not exist.\n" +
                     "Provided ID: " + id;
+        }
+
+    }
+
+    public String removeProductFromCart(long userId, long shoppingCartItemId, int quantity) {
+        User existingUser = userService.findUserById(userId);
+
+        // if user exist
+        if (existingUser != null) {
+
+            ShoppingCartItem existingItem = shoppingCartItemService.findShoppingCartItemById(shoppingCartItemId);
+
+            // if item exists
+            if (existingItem != null) {
+
+
+                if (quantity > 0 && quantity <= existingItem.getQuantity()) {
+                    ShoppingCart userShoppingCart = existingUser.getShoppingCart();
+
+                    String nameOfItem = null;
+
+                    boolean itemFound = false;
+
+                    for (ShoppingCartItem item : userShoppingCart.getItems()) {
+                        if (existingItem.getId() == (item.getId())) {
+                            itemFound = true;
+                            nameOfItem = item.getName();
+                        }
+                    }
+
+                    if (itemFound) {
+
+                        Product product = productService.findProductByName(nameOfItem);
+                        int productQuantity = product.getQuantity();
+                        int quantityToAdd = quantity;
+                        int totalQuantity = productQuantity+quantityToAdd;
+
+                        product.setQuantity(totalQuantity);
+                        productService.saveOrUpdate(product);
+
+                        existingItem.setQuantity(existingItem.getQuantity() - quantity);
+                        shoppingCartItemService.saveOrUpdate(existingItem);
+
+                        if (existingItem.getQuantity() == 0) {
+                            userShoppingCart.removeItem(existingItem);
+
+                            shoppingCartItemService.deleteShoppingCartItem(existingItem);
+                        }
+
+                        shoppingCartRepository.save(userShoppingCart);
+
+                        if (quantity > 1) {
+                            return "Removed " + quantity + "x " + nameOfItem + "s from your shopping cart.";
+                        } else {
+                            return "Removed " + quantity + "x " + nameOfItem + " from your shopping cart.";
+                        }
+
+                    } else {
+
+                        return "item does not exist in current users shopping cart.";
+                    }
+
+                } else if (quantity <= 0) {
+
+                    return "ERROR: Provided quantity has to be at least 1 or above.\n" +
+                            "Provided quantity: " + quantity;
+                } else {
+
+                    return "ERROR: Provided quantity is higher than the quantity of the item in your shopping cart.";
+                }
+
+            } else {
+
+                return "ERROR: Item with provided ID does not exist.\n" +
+                        "Provided ID: " + shoppingCartItemId;
+            }
+
+        } else {
+
+            return "ERROR: Provided User ID does not exist.\n" +
+                    "Provided ID: " + userId;
         }
 
     }

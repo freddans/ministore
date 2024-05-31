@@ -115,4 +115,8 @@ public class ProductService {
                     "Provided ID: " + id + "\n";
         }
     }
+
+    public void saveOrUpdate(Product product) {
+        productRepository.save(product);
+    }
 }
