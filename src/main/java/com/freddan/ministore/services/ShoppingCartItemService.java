@@ -5,6 +5,7 @@ import com.freddan.ministore.repositories.ShoppingCartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,10 @@ public class ShoppingCartItemService {
 
             return null;
         }
+    }
+
+    public List<ShoppingCartItem> findAllItems() {
+        return shoppingCartItemRepository.findAll();
     }
 
     public void saveOrUpdate(ShoppingCartItem shoppingCartItem) {

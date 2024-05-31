@@ -33,4 +33,9 @@ public class ShoppingCartController {
     public ResponseEntity<String> removeProductFromCart(@PathVariable long id, @RequestParam("shoppingCartItemId") long shoppingCartItemId, @RequestParam("quantity") int quantity) {
         return ResponseEntity.ok(shoppingCartService.removeProductFromCart(id, shoppingCartItemId, quantity));
     }
+
+    @PostMapping("/clearforuser/{id}")
+    public ResponseEntity<String> clearShoppingCartList(@PathVariable long id) {
+        return ResponseEntity.ok(shoppingCartService.clearShoppingCartList(id));
+    }
 }

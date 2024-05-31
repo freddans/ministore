@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -77,8 +78,6 @@ public class ShoppingCartService {
 
                             shoppingCartItemService.saveOrUpdate(shoppingCartItem);
                             shoppingCartRepository.save(shoppingCart);
-
-                            System.out.println(product.getName() + " added to cart");
 
                             if (quantity > 1) {
                                 return "Added: " + quantity + "x " + shoppingCartItem.getName() + "s to Shopping Cart";
@@ -206,7 +205,7 @@ public class ShoppingCartService {
 
                     } else {
 
-                        return "item does not exist in current users shopping cart.";
+                        return "item does not exist in " + existingUser.getUsername() + "'s shopping cart.";
                     }
 
                 } else if (quantity <= 0) {
@@ -230,6 +229,47 @@ public class ShoppingCartService {
                     "Provided ID: " + userId;
         }
 
+    }
+
+    public String clearShoppingCartList(long id) {
+        User user = userService.findUserById(id);
+
+        if (user != null) {
+            ShoppingCart shoppingCart = user.getShoppingCart();
+
+
+
+            if (!shoppingCart.getItems().isEmpty()) {
+
+                List<ShoppingCartItem> cartItemsToDelete = new ArrayList<>(shoppingCart.getItems());
+
+                for (ShoppingCartItem item : cartItemsToDelete) {
+                    Product product = productService.findProductByName(item.getName());
+                    int itemQuantity = item.getQuantity();
+                    product.setQuantity(product.getQuantity() + itemQuantity);
+                    productService.saveOrUpdate(product);
+
+                    shoppingCart.removeItem(item);
+                    shoppingCartRepository.save(shoppingCart);
+
+                    shoppingCartItemService.deleteShoppingCartItem(item);
+                }
+
+                cartItemsToDelete.clear();
+
+                return "Cleared shopping cart for " + user.getUsername();
+
+            } else {
+
+                return "ERROR: " + user.getUsername() + "'s shopping cart is empty";
+            }
+
+
+        } else {
+
+            return "User does not exist with provided User ID.\n" +
+                    "Provided ID: " + id;
+        }
     }
 
 }
