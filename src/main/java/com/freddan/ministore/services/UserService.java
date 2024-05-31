@@ -107,36 +107,38 @@ public class UserService {
     public User updateUser(long id, User updatedUserInfo) {
         User existingUser = findUserById(id);
 
-        if (existingUser != null) {
-
-            if (!updatedUserInfo.getUsername().equals(existingUser.getUsername()) && !updatedUserInfo.getUsername().isEmpty() && updatedUserInfo.getUsername() != null) {
-
-                existingUser.setUsername(updatedUserInfo.getUsername());
-            } else {
-            }
-            if (!updatedUserInfo.getRoles().equals(existingUser.getRoles()) && !updatedUserInfo.getRoles().isEmpty() && updatedUserInfo.getRoles() != null) {
-                if (updatedUserInfo.getRoles().equals("USER") || updatedUserInfo.getRoles().equals("ADMIN")) {
-
-                    existingUser.setRoles(updatedUserInfo.getRoles());
-                } else {
-
-                    logger.error("\nERROR: New Users role was not set to USER nor ADMIN.\n" +
-                            "Provided role: " + updatedUserInfo.getRoles() + "\n");
-                }
-            }
-
-            userRepository.save(existingUser);
-            logger.info("\nUpdated user with id: " + existingUser.getId() + "\n");
-
-            return existingUser;
-
-        } else {
-
+        if (existingUser == null) {
             logger.error("\nERROR: User with provided ID does not exist.\n" +
                     "Provided ID: " + id + "\n");
-
             return null;
         }
+
+        // Update username if provided and not empty
+        if (updatedUserInfo.getUsername() != null && !updatedUserInfo.getUsername().isEmpty() &&
+                !updatedUserInfo.getUsername().equals(existingUser.getUsername())) {
+            existingUser.setUsername(updatedUserInfo.getUsername());
+        }
+
+        // Update roles if provided, not empty, and valid
+        if (updatedUserInfo.getRoles() != null && !updatedUserInfo.getRoles().isEmpty() &&
+                !updatedUserInfo.getRoles().equals(existingUser.getRoles())) {
+            if (updatedUserInfo.getRoles().equals("USER") || updatedUserInfo.getRoles().equals("ADMIN")) {
+                existingUser.setRoles(updatedUserInfo.getRoles());
+            } else {
+                logger.error("\nERROR: New User's role was not set to USER nor ADMIN.\n" +
+                        "Provided role: " + updatedUserInfo.getRoles() + "\n");
+                return null; // Optionally, return error here if role is invalid
+            }
+        }
+
+        // Update password if provided and not empty
+        if (updatedUserInfo.getPassword() != null && !updatedUserInfo.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(updatedUserInfo.getPassword()));
+        }
+
+        userRepository.save(existingUser);
+
+        return existingUser;
     }
 
     public String deleteUser(long id) {
@@ -145,7 +147,6 @@ public class UserService {
         if (existingUser != null) {
 
             userRepository.delete(existingUser);
-            logger.info("\nDeleted User with ID: " + id + "\n");
             return "Deleted User with ID: " + id;
         } else {
 
