@@ -52,14 +52,14 @@ public class ShoppingCartService {
 
                     ShoppingCartItem shoppingCartItem = new ShoppingCartItem(product.getName(),quantity);
 
-                    shoppingCart.addProduct(shoppingCartItem);
+                    shoppingCart.addItem(shoppingCartItem);
 
                     shoppingCartItemService.saveOrUpdate(shoppingCartItem);
                     shoppingCartRepository.save(shoppingCart);
 
                     System.out.println(product.getName() + " added to cart");
 
-                    return shoppingCart.getProductList();
+                    return shoppingCart.getItems();
 
 
                 } else {

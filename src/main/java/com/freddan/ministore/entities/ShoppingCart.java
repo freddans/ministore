@@ -13,7 +13,7 @@ public class ShoppingCart {
     private long id;
 
     @OneToMany
-    private List<ShoppingCartItem> productList;
+    private List<ShoppingCartItem> items;
 
     public ShoppingCart() {
     }
@@ -26,19 +26,19 @@ public class ShoppingCart {
         this.id = id;
     }
 
-    public List<ShoppingCartItem> getProductList() {
-        return productList;
+    public List<ShoppingCartItem> getItems() {
+        return items;
     }
 
-    public void setProductList(List<ShoppingCartItem> productList) {
-        this.productList = productList;
+    public void setItems(List<ShoppingCartItem> items) {
+        this.items = items;
     }
 
-    public void addProduct(ShoppingCartItem product) {
-        productList.add(product);
+    public void addItem(ShoppingCartItem product) {
+        items.add(product);
     }
 
-    public void removeProduct(ShoppingCartItem product) {
-        productList.remove(product);
+    public void removeItem(ShoppingCartItem product) {
+        items.remove(product);
     }
 }
