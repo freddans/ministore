@@ -58,7 +58,7 @@ GET localhost:9090/product/all
 <summary>Find Product By ID</summary>
 
 ```
-GET localhost:9090/product/1
+GET localhost:9090/product/<productID>
 ```
 
 #
@@ -87,7 +87,7 @@ GET localhost:9090/product/find/carrot
 <summary>Add Product To Shopping Cart</summary>
 
 ```
-POST localhost:9090/shoppingcart/addtouser/1
+POST localhost:9090/shoppingcart/addtouser/<userID>
 ```
 
 Params
@@ -103,7 +103,7 @@ quantity: 4
 <summary>Remove Product From Shopping Cart</summary>
 
 ```
-POST localhost:9090/shoppingcart/removefromuser/1
+POST localhost:9090/shoppingcart/removefromuser/<userID>
 ```
 
 Params
@@ -119,7 +119,7 @@ quantity: 6
 <summary>Clear Users Shopping Cart</summary>
 
 ```
-POST localhost:9090/shoppingcart/clearforuser/1
+POST localhost:9090/shoppingcart/clearforuser/<userID>
 ```
 
 #
@@ -129,7 +129,7 @@ POST localhost:9090/shoppingcart/clearforuser/1
 <summary>Checkout</summary>
 
 ```
-POST localhost:9090/shoppingcart/checkoutforuser/1
+POST localhost:9090/shoppingcart/checkoutforuser/<userID>
 ```
 
 </details>
@@ -146,12 +146,74 @@ POST localhost:9090/shoppingcart/checkoutforuser/1
 <summary>Find Receipt By ID</summary>
 
 ```
-GET localhost:9090/user/receipt/1
+GET localhost:9090/user/receipt/<id>
 ```
 
 </details>
 </details>
 
+#
+</details>
+
+<br>
+
+<details>
+<summary>Admin endpoints</summary>
+
+<br>
+<details>
+<summary>User</summary>
+
+<details>
+<summary>Get All Users</summary>
+
+```
+GET localhost:9090/user/all
+```
 
 #
+</details>
+
+<details>
+<summary>Get User By ID</summary>
+
+```
+GET localhost:9090/user/<id>
+```
+
+#
+</details>
+
+<details>
+<summary>Get User By Username</summary>
+
+```
+GET localhost:9090/user/<username>
+```
+
+#
+</details>
+
+<details>
+<summary>Update User</summary>
+
+```
+PUT localhost:9090/user/update/<userID>
+```
+
+#
+</details>
+
+<details>
+<summary>Delete User</summary>
+
+```
+DELETE localhost:9090/user/update/<userID>
+```
+
+</details>
+
+#
+</details>
+
 </details>
