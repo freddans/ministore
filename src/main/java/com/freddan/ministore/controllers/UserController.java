@@ -6,6 +6,7 @@ import com.freddan.ministore.services.ReceiptService;
 import com.freddan.ministore.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.findAllUsers());
     }
@@ -34,6 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<User> findUserByUsername(@PathVariable String username) {
         return ResponseEntity.ok(userService.findUserByUsername(username));
     }
@@ -46,16 +49,19 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User updatedUserInfo) {
         return ResponseEntity.ok(userService.updateUser(id, updatedUserInfo));
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable long id) {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     @GetMapping("/receipts")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<Receipt>> allReceipts() {
         return ResponseEntity.ok(receiptService.allReceipts());
     }

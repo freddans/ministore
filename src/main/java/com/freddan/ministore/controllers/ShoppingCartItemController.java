@@ -4,6 +4,7 @@ import com.freddan.ministore.entities.ShoppingCartItem;
 import com.freddan.ministore.services.ShoppingCartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class ShoppingCartItemController {
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<ShoppingCartItem>> allShoppingCartItems() {
         return ResponseEntity.ok(shoppingCartItemService.findAllItems());
     }
