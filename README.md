@@ -1,6 +1,4 @@
-Unauthorized endpoints:
-
-<details><summary>Create User</summary>
+<details><summary>Unauthenticated endpoints</summary>
 <br>
 <details>
 <summary>Create User with automatical USER-role</summary>
@@ -34,6 +32,50 @@ Body<br>
 }
 ```
 </details>
+
+#
+</details>
+
+<br>
+
+<details><summary>Authenticated endpoints</summary>
+<br>
+<details>
+<summary>Product</summary>
+<details>
+<summary>Get All Products</summary>
+
+```
+GET localhost:9090/product/all
+```
+
+#
+</details>
+
+<details>
+<summary>Find Product By ID</summary>
+
+```
+GET localhost:9090/product/1
+```
+
+#
+</details>
+
+<details>
+<summary>Find Product By Productname</summary>
+
+```
+GET localhost:9090/product/find/carrot
+```
+
+#
+</details>
+
+#
+</details>
+
+
 
 #
 </details>
