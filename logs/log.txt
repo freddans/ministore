@@ -1,0 +1,35 @@
+2024-06-02 17:19:16,872 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-06-02 17:19:27,998 * ERROR * com.freddan.ministore.services.ProductService * createProduct * 
+ERROR: Please provide a name, price and the quantity of the product.
+
+2024-06-02 17:21:25,170 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-06-02 17:24:26,688 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-06-02 17:26:54,196 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-06-02 17:30:27,380 * ERROR * com.freddan.ministore.services.UserService * findUserById * 
+ERROR: User with provided ID does not exist.
+Provided ID: 1
+
+2024-06-02 17:30:27,385 * ERROR * com.freddan.ministore.services.ProductService * addProductToCart * 
+ERROR: User with provided ID does not exist.
+Provided ID: 1
+
+2024-06-02 17:30:46,009 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+
+2024-06-02 17:32:19,991 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: user
+

@@ -59,16 +59,16 @@ public class ProductService {
             return null;
         } else {
 
-            if (productInfo.getName() != null && !productInfo.getName().isEmpty() && productInfo.getQuantity() != 0) {
+            if (productInfo.getName() != null && !productInfo.getName().isEmpty() && productInfo.getPrice() != 0 && productInfo.getQuantity() != 0) {
 
-                Product product = new Product(productInfo.getName(), productInfo.getQuantity());
+                Product product = new Product(productInfo.getName(), productInfo.getPrice(), productInfo.getQuantity());
 
                 productRepository.save(product);
 
                 return product;
             } else {
 
-                logger.error("\nERROR: Please provide both a name and the quantity of the product.\n");
+                logger.error("\nERROR: Please provide a name, price and the quantity of the product.\n");
 
                 return null;
             }
@@ -83,6 +83,10 @@ public class ProductService {
             if (newProductInfo.getName() != null && !newProductInfo.getName().isEmpty() && !newProductInfo.getName().equals(existingProduct.getName())) {
 
                 existingProduct.setName(newProductInfo.getName());
+            }
+            if (newProductInfo.getPrice() != 0 && newProductInfo.getPrice() != existingProduct.getPrice()) {
+
+                existingProduct.setPrice(newProductInfo.getPrice());
             }
             if (newProductInfo.getQuantity() != 0 && newProductInfo.getQuantity() != existingProduct.getQuantity()) {
 

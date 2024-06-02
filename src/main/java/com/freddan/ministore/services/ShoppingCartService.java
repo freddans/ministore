@@ -72,9 +72,10 @@ public class ShoppingCartService {
 
                             product.setQuantity(product.getQuantity() - quantity);
 
-                            ShoppingCartItem shoppingCartItem = new ShoppingCartItem(product.getName(), quantity);
+                            ShoppingCartItem shoppingCartItem = new ShoppingCartItem(product.getName(), product.getPrice(), quantity);
 
                             shoppingCart.addItem(shoppingCartItem);
+                            shoppingCart.increaseTotalCost(shoppingCartItem); // ska lägga till kostnad
 
                             shoppingCartItemService.saveOrUpdate(shoppingCartItem);
                             shoppingCartRepository.save(shoppingCart);
@@ -109,6 +110,9 @@ public class ShoppingCartService {
                             existingItem.setQuantity(newQuantity);
 
                             shoppingCartItemService.saveOrUpdate(existingItem);
+
+                            shoppingCart.increaseTotalCost(existingItem); // ska lägga till kostnad
+
                             shoppingCartRepository.save(shoppingCart);
 
                             if (newQuantity > 1) {
@@ -186,6 +190,10 @@ public class ShoppingCartService {
                         product.setQuantity(totalQuantity);
                         productService.saveOrUpdate(product);
 
+                        // Decreases cost from "Total Cost" in shopping cart
+//                        userShoppingCart.setTotalCost(userShoppingCart.getTotalCost() - (existingItem.getPrice()*quantity));
+                        userShoppingCart.decreaseTotalCost(existingItem, quantity);
+
                         existingItem.setQuantity(existingItem.getQuantity() - quantity);
                         shoppingCartItemService.saveOrUpdate(existingItem);
 
@@ -248,6 +256,9 @@ public class ShoppingCartService {
                     int itemQuantity = item.getQuantity();
                     product.setQuantity(product.getQuantity() + itemQuantity);
                     productService.saveOrUpdate(product);
+
+                    // Remove total cost from shopping cart
+                    shoppingCart.decreaseTotalCost(item, itemQuantity);
 
                     shoppingCart.removeItem(item);
                     shoppingCartRepository.save(shoppingCart);

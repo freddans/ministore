@@ -11,7 +11,7 @@ public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    private double totalCost;
     @OneToMany
     private List<ShoppingCartItem> items;
 
@@ -24,6 +24,14 @@ public class ShoppingCart {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
     }
 
     public List<ShoppingCartItem> getItems() {
@@ -40,5 +48,22 @@ public class ShoppingCart {
 
     public void removeItem(ShoppingCartItem product) {
         items.remove(product);
+    }
+
+    public void increaseTotalCost (ShoppingCartItem product) {
+        double productCost = product.getPrice();
+        double quantity = product.getQuantity();
+
+        double totalCost = productCost*quantity;
+
+        this.totalCost += totalCost;
+    }
+
+    public void decreaseTotalCost (ShoppingCartItem product, int quantity) {
+        double productCost = product.getPrice();
+
+        double totalCost = productCost*quantity;
+
+        this.totalCost -= totalCost;
     }
 }
