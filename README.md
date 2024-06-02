@@ -76,7 +76,11 @@ GET localhost:9090/product/find/carrot
 
 </details>
 
+<br>
 
+<details>
+<summary>Shopping Cart</summary>
+</details>
 
 #
 </details>
