@@ -2,6 +2,8 @@ package com.freddan.ministore.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -14,6 +16,9 @@ public class User {
     private String roles;
     @ManyToOne(cascade = CascadeType.ALL)
     private ShoppingCart shoppingCart;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Receipt> receipts;
 
     public User() {
     }
@@ -72,5 +77,19 @@ public class User {
         this.roles = roles;
     }
 
+    public List<Receipt> getReceipts() {
+        return receipts;
+    }
 
+    public void setReceipts(List<Receipt> receipts) {
+        this.receipts = receipts;
+    }
+
+    public void addReceipt(Receipt receipt) {
+        receipts.add(receipt);
+    }
+
+    public void removeReceipt(Receipt receipt) {
+        receipts.remove(receipt);
+    }
 }

@@ -156,5 +156,11 @@ public class UserService {
         }
     }
 
+    public void saveOrUpdate(User user) {
+        if (user != null) {
+            userRepository.save(user);
+        }
+    }
+
 
 }

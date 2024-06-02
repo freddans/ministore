@@ -38,4 +38,9 @@ public class ShoppingCartController {
     public ResponseEntity<String> clearShoppingCartList(@PathVariable long id) {
         return ResponseEntity.ok(shoppingCartService.clearShoppingCartList(id));
     }
+
+    @PostMapping("/checkoutforuser/{id}")
+    public ResponseEntity<String> checkout(@PathVariable long id) {
+        return ResponseEntity.ok(shoppingCartService.checkout(id));
+    }
 }

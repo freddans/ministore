@@ -50,9 +50,8 @@ public class ShoppingCart {
         items.remove(product);
     }
 
-    public void increaseTotalCost (ShoppingCartItem product) {
+    public void increaseTotalCost (ShoppingCartItem product, int quantity) {
         double productCost = product.getPrice();
-        double quantity = product.getQuantity();
 
         double totalCost = productCost*quantity;
 

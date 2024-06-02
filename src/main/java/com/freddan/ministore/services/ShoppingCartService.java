@@ -1,9 +1,6 @@
 package com.freddan.ministore.services;
 
-import com.freddan.ministore.entities.Product;
-import com.freddan.ministore.entities.ShoppingCart;
-import com.freddan.ministore.entities.ShoppingCartItem;
-import com.freddan.ministore.entities.User;
+import com.freddan.ministore.entities.*;
 import com.freddan.ministore.repositories.ShoppingCartRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +17,15 @@ public class ShoppingCartService {
     private UserService userService;
     private ShoppingCartRepository shoppingCartRepository;
     private ShoppingCartItemService shoppingCartItemService;
+    private ReceiptService receiptService;
 
     @Autowired
-    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository, ShoppingCartItemService shoppingCartItemService, ProductService productService, UserService userService) {
+    public ShoppingCartService(ShoppingCartRepository shoppingCartRepository, ShoppingCartItemService shoppingCartItemService, ProductService productService, UserService userService, ReceiptService receiptService) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.shoppingCartItemService = shoppingCartItemService;
         this.productService = productService;
         this.userService = userService;
+        this.receiptService = receiptService;
     }
 
     public List<ShoppingCart> findAllShoppingCarts() {
@@ -75,7 +74,7 @@ public class ShoppingCartService {
                             ShoppingCartItem shoppingCartItem = new ShoppingCartItem(product.getName(), product.getPrice(), quantity);
 
                             shoppingCart.addItem(shoppingCartItem);
-                            shoppingCart.increaseTotalCost(shoppingCartItem); // ska lägga till kostnad
+                            shoppingCart.increaseTotalCost(shoppingCartItem, quantity); // ska lägga till kostnad
 
                             shoppingCartItemService.saveOrUpdate(shoppingCartItem);
                             shoppingCartRepository.save(shoppingCart);
@@ -111,7 +110,7 @@ public class ShoppingCartService {
 
                             shoppingCartItemService.saveOrUpdate(existingItem);
 
-                            shoppingCart.increaseTotalCost(existingItem); // ska lägga till kostnad
+                            shoppingCart.increaseTotalCost(existingItem, quantity); // ska lägga till kostnad
 
                             shoppingCartRepository.save(shoppingCart);
 
@@ -279,6 +278,62 @@ public class ShoppingCartService {
         } else {
 
             return "User does not exist with provided User ID.\n" +
+                    "Provided ID: " + id;
+        }
+    }
+
+    public String checkout(long id) {
+        User user = userService.findUserById(id);
+        if (user != null) {
+
+            ShoppingCart shoppingCart = user.getShoppingCart();
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder
+                    .append("Receipt:\n");
+
+            for (ShoppingCartItem item : shoppingCart.getItems()) {
+                stringBuilder
+                        .append(item.getName())
+                        .append(" x")
+                        .append(item.getQuantity())
+                        .append(": ")
+                        .append(item.getPrice() * item.getQuantity())
+                        .append("\n");
+            }
+
+            stringBuilder
+                    .append("Total Cost: ")
+                    .append(shoppingCart.getTotalCost());
+
+
+
+            user.addReceipt(receiptService.createReceipt(user));
+
+            userService.saveOrUpdate(user);
+
+            List<ShoppingCartItem> itemsToBeDeleted = new ArrayList<>(shoppingCart.getItems());
+
+            shoppingCart.getItems().clear();
+
+            // Clear shoppingcart
+            for (ShoppingCartItem item : itemsToBeDeleted) {
+                shoppingCartItemService.deleteShoppingCartItem(item);
+            }
+
+            itemsToBeDeleted.clear();
+
+            shoppingCartRepository.save(shoppingCart);
+
+
+
+            return stringBuilder.toString();
+
+
+        } else {
+
+            return "Provided User ID does not exist" +
                     "Provided ID: " + id;
         }
     }

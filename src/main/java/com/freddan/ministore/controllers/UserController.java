@@ -1,6 +1,8 @@
 package com.freddan.ministore.controllers;
 
+import com.freddan.ministore.entities.Receipt;
 import com.freddan.ministore.entities.User;
+import com.freddan.ministore.services.ReceiptService;
 import com.freddan.ministore.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +15,12 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private ReceiptService receiptService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ReceiptService receiptService) {
         this.userService = userService;
+        this.receiptService = receiptService;
     }
 
     @GetMapping("/all")
@@ -49,5 +53,15 @@ public class UserController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable long id) {
         return ResponseEntity.ok(userService.deleteUser(id));
+    }
+
+    @GetMapping("/receipts")
+    public ResponseEntity<List<Receipt>> allReceipts() {
+        return ResponseEntity.ok(receiptService.allReceipts());
+    }
+
+    @GetMapping("/receipt/{id}")
+    public ResponseEntity<Receipt> getReceiptById(@PathVariable long id) {
+        return ResponseEntity.ok(receiptService.findReceiptById(id));
     }
 }
