@@ -80,6 +80,37 @@ GET localhost:9090/product/find/carrot
 
 <details>
 <summary>Shopping Cart</summary>
+<details>
+<summary>Add Product To Shopping Cart</summary>
+
+info
+
+#
+</details>
+
+<details>
+<summary>Remove Product From Shopping Cart</summary>
+
+info
+
+#
+</details>
+
+<details>
+<summary>Clear Users Shopping Cart</summary>
+
+info
+
+#
+</details>
+
+<details>
+<summary>Checkout</summary>
+
+info
+</details>
+
+#
 </details>
 
 #
