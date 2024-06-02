@@ -137,5 +137,21 @@ POST localhost:9090/shoppingcart/checkoutforuser/1
 #
 </details>
 
+<details>
+<summary>Receipt</summary>
+
+<br>
+
+<details>
+<summary>Find Receipt By ID</summary>
+
+```
+GET localhost:9090/user/receipt/1
+```
+
+</details>
+</details>
+
+
 #
 </details>
