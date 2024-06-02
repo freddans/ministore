@@ -86,7 +86,15 @@ GET localhost:9090/product/find/carrot
 <details>
 <summary>Add Product To Shopping Cart</summary>
 
-info
+```
+POST localhost:9090/shoppingcart/addtouser/1
+```
+
+Params
+```
+productId: 1
+quantity: 4
+```
 
 #
 </details>
@@ -94,7 +102,15 @@ info
 <details>
 <summary>Remove Product From Shopping Cart</summary>
 
-info
+```
+POST localhost:9090/shoppingcart/removefromuser/1
+```
+
+Params
+```
+shoppingCartItemId: 1
+quantity: 6
+```
 
 #
 </details>
@@ -102,7 +118,9 @@ info
 <details>
 <summary>Clear Users Shopping Cart</summary>
 
-info
+```
+POST localhost:9090/shoppingcart/clearforuser/1
+```
 
 #
 </details>
@@ -110,7 +128,10 @@ info
 <details>
 <summary>Checkout</summary>
 
-info
+```
+POST localhost:9090/shoppingcart/checkoutforuser/1
+```
+
 </details>
 
 #
