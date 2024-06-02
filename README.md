@@ -1,5 +1,9 @@
-<details><summary>Unauthenticated endpoints</summary>
+<details>
+<summary>Unauthenticated endpoints</summary>
 <br>
+<details>
+<summary>User</summary>
+
 <details>
 <summary>Create User with automatical USER-role</summary>
 
@@ -36,6 +40,7 @@ Body<br>
 </details>
 
 #
+</details>
 </details>
 
 <br>
@@ -76,12 +81,10 @@ GET localhost:9090/product/find/carrot
 #
 </details>
 
-<br>
+
 
 <details>
 <summary>Shopping Cart</summary>
-
-<br>
 
 <details>
 <summary>Add Product To Shopping Cart</summary>
@@ -139,8 +142,6 @@ POST localhost:9090/shoppingcart/checkoutforuser/<userID>
 
 <details>
 <summary>Receipt</summary>
-
-<br>
 
 <details>
 <summary>Find Receipt By ID</summary>
@@ -214,6 +215,103 @@ DELETE localhost:9090/user/update/<userID>
 </details>
 
 #
+</details>
+
+<details>
+<summary>Product</summary>
+<details>
+<summary>Create Product</summary>
+
+```
+POST localhost:9090/product/create
+```
+
+Body<br>
+```
+{
+    "name": "carrot",
+    "price": 5,
+    "quantity": 10
+}
+```
+
+#
+</details>
+
+<details>
+<summary>Update Product</summary>
+
+```
+PUT localhost:9090/product/update/<productID>
+```
+
+Body (It's enough just writing "name": "peanut" if you only want to change the name of the product)
+```
+{
+    "name": "peanut",
+    "price": 3,
+    "quantity": 5
+}
+```
+
+#
+</details>
+
+<details>
+<summary>Delete Product</summary>
+
+```
+DELETE localhost:9090/product/delete/<productID>
+```
+
+
+</details>
+
+#
+</details>
+
+<details>
+<summary>Shopping Cart</summary>
+
+<details>
+<summary>Get All Shopping Carts</summary>
+
+```
+GET localhost:9090/shoppingcart/all
+```
+
+</details>
+
+#
+</details>
+
+<details>
+<summary>Shopping Cart Item</summary>
+
+<details>
+<summary>Get All Shopping Cart Items</summary>
+
+```
+GET localhost:9090/item/all
+```
+
+</details>
+
+#
+</details>
+
+<details>
+<summary>Receipt</summary>
+
+<details>
+<summary>Get All Receipts</summary>
+
+```
+GET localhost:9090/user/receipts
+```
+
+</details>
+
 </details>
 
 </details>
