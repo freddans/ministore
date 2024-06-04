@@ -50,7 +50,7 @@ public class ReceiptService {
             for (ShoppingCartItem item : user.getShoppingCart().getItems()) {
 
                 receiptList
-                        .add(item.getName() + " x" + item.getQuantity() + ": " + item.getPrice() * item.getQuantity());
+                        .add(item.getQuantity() + "x " + item.getName() + ": $" + item.getPrice() * item.getQuantity());
             }
 
             Receipt receipt = new Receipt(receiptList, user.getShoppingCart().getTotalCost());

@@ -48,15 +48,17 @@
         <div class="product" th:each="receipt : ${userInfo.getReceipts()}"> <!-- RECEIPT -->
             <h2>Receipt</h2>
             <div class="date-div">
-                Date: <p th:text="${receipt.date}"></p>
+                <p th:text="${receipt.date}"></p>
             </div>
             <div class="item-div">
-                Items: <p th:text="${receipt.getItemList()}"></p>
+                Items:
+                <ul>
+                    <li th:each="item : ${receipt.getItemList()}" th:text="${item}"></li>
+                </ul>
             </div>
             <div class="totalcost-div">
-                Cost: <p th:text="${receipt.totalCost}"></p>
+                Total amount: $<span th:text="${receipt.totalCost}"></span>
             </div>
-            </form>
         </div> <!-- // RECEIPT -->
     </div> <!-- // PRODUCT LIST FOR USER -->
 
