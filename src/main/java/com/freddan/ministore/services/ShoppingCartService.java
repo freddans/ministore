@@ -324,6 +324,8 @@ public class ShoppingCartService {
 
             itemsToBeDeleted.clear();
 
+            shoppingCart.setTotalCost(0);
+
             shoppingCartRepository.save(shoppingCart);
 
 

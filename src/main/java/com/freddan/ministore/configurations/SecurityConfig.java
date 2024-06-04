@@ -35,11 +35,22 @@ public class SecurityConfig {
 
                         .requestMatchers("/user/create").permitAll()
 
+                        // Web
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/register", "/login", "/", "/store").permitAll()
+
+                        .requestMatchers("/receipts").authenticated()
+
+                        .requestMatchers("/users").hasAuthority("ADMIN")
+
                         .anyRequest().authenticated()
                 )
 
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
+                .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
+                        .defaultSuccessUrl("/store", true))
+                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
+                        .logoutSuccessUrl("/"))
                 .csrf(csrf -> csrf.disable());
 
         return http.build();

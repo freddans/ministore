@@ -4,6 +4,9 @@ import com.freddan.ministore.entities.User;
 import com.freddan.ministore.repositories.UserRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,13 +60,21 @@ public class UserService {
     }
 
     public User createUser(User newUserInfo) {
+        System.out.println("check if user exist");
         User existingUser = findUserByUsername(newUserInfo.getUsername());
 
         if (existingUser == null) {
+            System.out.println("user does not exist");
+
+            System.out.println("Written Username: " + newUserInfo.getUsername());
+            System.out.println("Written Password: " + newUserInfo.getPassword());
 
             if (newUserInfo.getUsername() != null && !newUserInfo.getUsername().isEmpty() && newUserInfo.getPassword() != null && !newUserInfo.getPassword().isEmpty()) {
+                System.out.println("username is not empty or null, password is not empty or null");
 
                 if (newUserInfo.getRoles() != null && !newUserInfo.getRoles().isEmpty()) {
+                    newUserInfo.setRoles(newUserInfo.getRoles().toUpperCase());
+
                     if (newUserInfo.getRoles().equals("USER") || newUserInfo.getRoles().equals("ADMIN")) {
 
                         newUserInfo.setPassword(passwordEncoder.encode(newUserInfo.getPassword()));
@@ -81,6 +92,8 @@ public class UserService {
                     }
 
                 } else {
+                    System.out.println("roles are empty - automatic USER role");
+
                     newUserInfo.setPassword(passwordEncoder.encode(newUserInfo.getPassword()));
 
                     User newUser = new User(newUserInfo.getUsername(), newUserInfo.getPassword());
@@ -93,11 +106,13 @@ public class UserService {
 
 
             } else {
+                System.out.println("username or password is null or empty");
 
                 logger.error("\nERROR: Username or Password is either null och empty.\n");
                 return null;
             }
         } else {
+            System.out.println("username exist already");
 
             logger.error("\nERROR: Username already exist\n");
             return null;
@@ -122,6 +137,7 @@ public class UserService {
         // Update roles if provided, not empty, and valid
         if (updatedUserInfo.getRoles() != null && !updatedUserInfo.getRoles().isEmpty() &&
                 !updatedUserInfo.getRoles().equals(existingUser.getRoles())) {
+            updatedUserInfo.setRoles(updatedUserInfo.getRoles().toUpperCase());
             if (updatedUserInfo.getRoles().equals("USER") || updatedUserInfo.getRoles().equals("ADMIN")) {
                 existingUser.setRoles(updatedUserInfo.getRoles());
             } else {
@@ -159,6 +175,29 @@ public class UserService {
     public void saveOrUpdate(User user) {
         if (user != null) {
             userRepository.save(user);
+        }
+    }
+
+    public User findUserInfo() {
+        Optional<User> optionalUser = userRepository.findByUsername(findLoggedInUserDetails().getUsername());
+
+        if (optionalUser.isPresent()) {
+
+            return optionalUser.get();
+        } else {
+
+            return null;
+        }
+    }
+
+    public UserDetails findLoggedInUserDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+
+            return (UserDetails) authentication.getPrincipal();
+        } else {
+
+            return null;
         }
     }
 

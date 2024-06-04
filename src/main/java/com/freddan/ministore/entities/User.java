@@ -15,6 +15,7 @@ public class User {
     private String password;
     private String roles;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
 
     @OneToMany(cascade = CascadeType.ALL)

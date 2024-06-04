@@ -51,21 +51,41 @@ public class ProductService {
     public Product createProduct(Product productInfo) {
         Product existingProduct = findProductByName(productInfo.getName());
 
+        System.out.println("Iconlink: " + productInfo.getIconlink());
+        System.out.println("Product: " + productInfo.getName());
+        System.out.println("Price: " + productInfo.getPrice());
+        System.out.println("Quantity: " + productInfo.getQuantity());
+
         if (existingProduct != null) {
+            System.out.println("product exists");
 
             logger.error("\nERROR: Product with provided name already exist.\n" +
                     "Provided name: " + productInfo.getName() + "\n");
 
             return null;
         } else {
+            System.out.println("product not found");
 
             if (productInfo.getName() != null && !productInfo.getName().isEmpty() && productInfo.getPrice() != 0 && productInfo.getQuantity() != 0) {
+                if (productInfo.getIconlink() == null || productInfo.getIconlink().isEmpty()) {
 
-                Product product = new Product(productInfo.getName(), productInfo.getPrice(), productInfo.getQuantity());
+                    productInfo.setIconlink("/images/icons/noimagelink.png");
 
-                productRepository.save(product);
+                    Product product = new Product(productInfo.getName(), productInfo.getIconlink(), productInfo.getPrice(), productInfo.getQuantity());
 
-                return product;
+                    productRepository.save(product);
+
+                    return product;
+                } else {
+
+                    Product product = new Product(productInfo.getName(), productInfo.getIconlink(), productInfo.getPrice(), productInfo.getQuantity());
+
+                    productRepository.save(product);
+
+                    return product;
+                }
+
+
             } else {
 
                 logger.error("\nERROR: Please provide a name, price and the quantity of the product.\n");
@@ -91,6 +111,10 @@ public class ProductService {
             if (newProductInfo.getQuantity() != 0 && newProductInfo.getQuantity() != existingProduct.getQuantity()) {
 
                 existingProduct.setQuantity(newProductInfo.getQuantity());
+            }
+            if (newProductInfo.getIconlink() != null && !newProductInfo.getIconlink().isEmpty() && !newProductInfo.getIconlink().equals(existingProduct.getIconlink())) {
+
+                existingProduct.setIconlink(newProductInfo.getIconlink());
             }
 
             productRepository.save(existingProduct);

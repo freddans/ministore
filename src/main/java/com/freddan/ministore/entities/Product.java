@@ -10,6 +10,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    private String iconlink;
     private double price;
     private int quantity;
 
@@ -22,12 +23,27 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public Product(String name, String iconlink, double price, int quantity) {
+        this.name = name;
+        this.iconlink = iconlink;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getIconlink() {
+        return iconlink;
+    }
+
+    public void setIconlink(String iconlink) {
+        this.iconlink = iconlink;
     }
 
     public String getName() {

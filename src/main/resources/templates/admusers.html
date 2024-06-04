@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ministore</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"> <!-- ADMIN ROLE -->
+    <div class="admin-menu"> <!-- ADMIN MENU -->
+        <ul>
+            <li>
+                <a href="/store">Products</a>
+            </li>
+            <li>
+                <a href="/users">Users</a>
+            </li>
+            <li>
+                <a href="/logout">LOGOUT</a>
+            </li>
+        </ul>
+    </div> <!-- // ADMIN MENU -->
+</div> <!-- // ADMIN ROLE -->
+
+<div class="content"> <!-- CONTENT -->
+    <div class="header"> <!-- HEADER -->
+        <h1>Users</h1>
+    </div> <!-- // CONTENT -->
+
+    <div class="product-list" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"> <!-- PRODUCT LIST FOR ADMIN -->
+        <div class="create-product"> <!-- CREATE USER -->
+            <form action="/createUser" method="post">
+                <h3 style="align-self: center;">Add new user/admin</h3>
+                <p>
+                    Username(*): <input type="text" name="username" placeholder="Username" required>
+                    Password(*): <input type="password" name="password" placeholder="Password" required>
+                    Role(*): <input type="text" name="roles" placeholder="USER or ADMIN" required>
+                    <button class="buttons" type="submit">ADD PRODUCT</button>
+                </p>
+            </form>
+        </div> <!-- // CREATE USER -->
+
+        <div class="product" th:each="user : ${userInfo}"> <!-- USER -->
+            <form action="/deleteUser" method="post" align="right">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <button type="submit" style="background-color: darkred;" align="right">DELETE</button>
+            </form>
+
+            <div class="change-product-name">
+                <form action="/updateUser" method="post">
+                    <p>Username:
+                        <input type="hidden" name="id" th:value="${user.id}">
+                        <input type="text" name="username" th:placeholder="${user.username}">
+                        <button type="submit">Set Username</button>
+                    </p>
+                </form>
+            </div>
+
+<!--            <div class="change-price-div">-->
+<!--                <form action="/updateUser" method="post">-->
+<!--                    <p> Password:-->
+<!--                        <input type="hidden" name="id" th:value="${user.id}">-->
+<!--                        <input type="password" name="password" th:placeholder="Enter new password">-->
+<!--                        <button type="submit">Change Password</button>-->
+<!--                    </p>-->
+<!--                </form>-->
+<!--            </div>-->
+
+            <div class="change-quantity-div">
+
+                <form action="/updateUser" method="post">
+                    <p> Role:
+                        <input type="hidden" name="id" th:value="${user.id}">
+                        <input type="text" name="roles" th:value="${user.roles}" min="1">
+                        <button type="submit">Set Role</button>
+                    </p>
+                </form>
+            </div>
+        </div> <!-- // PRODUCT -->
+    </div> <!-- // PRODUCT LIST FOR ADMIN -->
+</div> <!-- // CONTENT -->
+</body>
+</html>
