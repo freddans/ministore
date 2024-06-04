@@ -82,3 +82,15 @@ Provided Username: test
 ERROR: User with provided Username does not exist.
 Provided Username: test
 
+2024-06-04 17:58:09,644 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: test
+
+2024-06-04 18:27:23,530 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: test
+
+2024-06-04 18:36:05,291 * ERROR * com.freddan.ministore.services.UserService * findUserByUsername * 
+ERROR: User with provided Username does not exist.
+Provided Username: createdAdmin
+
