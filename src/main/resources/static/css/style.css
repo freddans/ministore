@@ -172,6 +172,34 @@ body {
     overflow-y: auto;
 }
 
+.create-product {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensure the div fills the whole width of its parent */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-product button {
+    padding: 5px 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-product button:hover {
+    background-color: #555;
+}
+
 .product {
     position: relative; /* Ensure the child elements are positioned relative to this div */
     width: calc(33.33% - 50px);
@@ -298,5 +326,20 @@ body {
 }
 
 .cart-items button:hover {
+    background-color: #555;
+}
+
+.shoppingcartbuttons {
+    padding: 5px 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.shoppingcartbuttons button:hover {
     background-color: #555;
 }

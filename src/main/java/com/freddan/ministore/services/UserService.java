@@ -73,7 +73,8 @@ public class UserService {
                 System.out.println("username is not empty or null, password is not empty or null");
 
                 if (newUserInfo.getRoles() != null && !newUserInfo.getRoles().isEmpty()) {
-                    System.out.println("user role not empty - only postman");
+                    newUserInfo.setRoles(newUserInfo.getRoles().toUpperCase());
+
                     if (newUserInfo.getRoles().equals("USER") || newUserInfo.getRoles().equals("ADMIN")) {
 
                         newUserInfo.setPassword(passwordEncoder.encode(newUserInfo.getPassword()));
@@ -136,6 +137,7 @@ public class UserService {
         // Update roles if provided, not empty, and valid
         if (updatedUserInfo.getRoles() != null && !updatedUserInfo.getRoles().isEmpty() &&
                 !updatedUserInfo.getRoles().equals(existingUser.getRoles())) {
+            updatedUserInfo.setRoles(updatedUserInfo.getRoles().toUpperCase());
             if (updatedUserInfo.getRoles().equals("USER") || updatedUserInfo.getRoles().equals("ADMIN")) {
                 existingUser.setRoles(updatedUserInfo.getRoles());
             } else {

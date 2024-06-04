@@ -57,6 +57,18 @@ public class WebController {
         }
     }
 
+    // STORE PAGE
+    @GetMapping("/store")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public String storePage(Model model) {
+        List<Product> products = productService.findAllProducts();
+        User userDetails = userService.findUserInfo();
+        model.addAttribute("productInfo", products);
+        model.addAttribute("userInfo", userDetails);
+        return "store";
+    }
+
+    // STORE USER PAGE
     @PostMapping("/addProductToCart")
     public String addProductToCart(long id, long productId, int quantity) {
         String addProduct = shoppingCartService.addProductToCart(id, productId, quantity);
@@ -102,12 +114,14 @@ public class WebController {
             return "redirect:/error";
         }
     }
+    // -END STORE USER PAGE
 
-    @PostMapping("/deleteProduct")
-    public String deleteProduct(long id) {
-        String status = productService.deleteProduct(id);
+    // STORE ADMIN PAGE
+    @PostMapping("/createProduct")
+    public String createProduct(Product newProductInfo) {
+        Product status = productService.createProduct(newProductInfo);
 
-        if (status.startsWith("Product")) {
+        if (status != null) {
             return "redirect:/store";
         } else {
             return "redirect:/error";
@@ -125,13 +139,72 @@ public class WebController {
         }
     }
 
-    @GetMapping("/store")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public String storePage(Model model) {
-        List<Product> products = productService.findAllProducts();
-        User userDetails = userService.findUserInfo();
-        model.addAttribute("productInfo", products);
-        model.addAttribute("userInfo", userDetails);
-        return "store";
+    @PostMapping("/deleteProduct")
+    public String deleteProduct(long id) {
+        String status = productService.deleteProduct(id);
+
+        if (status.startsWith("Product")) {
+            return "redirect:/store";
+        } else {
+            return "redirect:/error";
+        }
     }
+    // -END STORE ADMIN PAGE
+
+    // -END STORE PAGE
+
+    // ADMIN USER PAGE
+    @GetMapping("/users")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String userPage(Model model) {
+        List<User> users = userService.findAllUsers();
+        model.addAttribute("userInfo", users);
+        return "admusers";
+    }
+
+    @PostMapping("/createUser")
+    public String createUser(User newUserInfo) {
+        User result = userService.createUser(newUserInfo);
+
+        if (result != null) {
+            return "redirect:/users";
+        } else {
+            return "redirect:/error";
+        }
+    }
+
+    @PostMapping("/updateUser")
+    public String updateUser(long id, @ModelAttribute("newUserInfo") User newUserInfo) {
+        User status = userService.updateUser(id, newUserInfo);
+
+        if (status != null) {
+            return "redirect:/users";
+        } else {
+            return "redirect:/error";
+        }
+    }
+
+    @PostMapping("/deleteUser")
+    public String deleteUser(long id) {
+        String status = userService.deleteUser(id);
+
+        if (status.startsWith("Deleted")) {
+            return "redirect:/users";
+        } else {
+            return "redirect:/error";
+        }
+    }
+    // -END ADMIN USER PAGE
+
+    // USER RECEIPTS PAGE
+    @GetMapping("/receipts")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    public String receiptsPage(Model model) {
+        User userDetails = userService.findUserInfo();
+        model.addAttribute("userInfo", userDetails);
+        return "myreceipts";
+    }
+
+    // -END USER RECEIPTS PAGE
+
 }

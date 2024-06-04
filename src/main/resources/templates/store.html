@@ -8,22 +8,32 @@
 </head>
 <body>
 
-<div th:if="${userInfo.roles.contains('ADMIN')}"> <!-- ADMIN ROLE -->
+<div th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"> <!-- ADMIN ROLE -->
     <div class="admin-menu"> <!-- ADMIN MENU -->
         <ul>
-            <li><a href="#">Products</a>
-                <ul class="dropdown">
-                    <li><a href="#">Add Product</a></li>
-                    <li><a href="/updateProduct">Update Product</a></li>
-                    <li><a href="/deleteProduct">Delete Product</a></li>
-                </ul>
+            <li>
+                <a href="/store">Products</a>
             </li>
-            <li><a href="#">Users</a>
-                <ul class="dropdown">
-                    <li><a href="/addUser">Add User</a></li>
-                    <li><a href="/updateUser">Update User</a></li>
-                    <li><a href="/deleteUser">Delete User</a></li>
-                </ul>
+            <li>
+                <a href="/users">Users</a>
+            </li>
+            <li>
+                <a href="/logout">LOGOUT</a>
+            </li>
+        </ul>
+    </div> <!-- // ADMIN MENU -->
+</div> <!-- // ADMIN ROLE -->
+<div th:if="${#authorization.expression('hasAuthority(''USER'')')}"> <!-- ADMIN ROLE -->
+    <div class="admin-menu"> <!-- ADMIN MENU -->
+        <ul>
+            <li>
+                <a href="/store">Products</a>
+            </li>
+            <li>
+                <a href="/receipts">Receipts</a>
+            </li>
+            <li>
+                <a href="/logout">LOGOUT</a>
             </li>
         </ul>
     </div> <!-- // ADMIN MENU -->
@@ -33,7 +43,20 @@
     <div class="header"> <!-- HEADER -->
         <h1>Products</h1>
     </div> <!-- // CONTENT -->
-    <div class="product-list" th:if="${userInfo.roles.contains('ADMIN')}"> <!-- PRODUCT LIST FOR ADMIN -->
+    <div class="product-list" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"> <!-- PRODUCT LIST FOR ADMIN -->
+        <div class="create-product"> <!-- CREATE PRODUCT -->
+            <form action="/createProduct" method="post">
+                <h3 style="align-self: center;">Add new product</h3>
+                <p>
+                    <img class="icon-img" src="/images/icons/newproduct.png"/>
+                    Link: <input type="text" name="iconlink" placeholder="Add link to IMG as an Icon" >
+                    Product(*): <input type="text" name="name" placeholder="Name of Product" required>
+                    Price(*): <input type="number" name="price" th:value="1" min="1" required>
+                    Stock(*): <input type="number" name="quantity" th:value="1" min="1" required>
+                    <button class="buttons" type="submit">ADD PRODUCT</button>
+                </p>
+            </form>
+        </div> <!-- // CREATE PRODUCT -->
         <div class="product" th:each="product : ${productInfo}"> <!-- PRODUCT -->
                 <form action="/deleteProduct" method="post" align="right">
                     <input type="hidden" name="id" th:value="${product.id}">
@@ -88,7 +111,7 @@
     </div> <!-- // PRODUCT LIST FOR ADMIN -->
 
 
-    <div class="product-list" th:if="${userInfo.roles.contains('USER')}"> <!-- PRODUCT LIST FOR USER -->
+    <div class="product-list" th:if="${#authorization.expression('hasAuthority(''USER'')')}"> <!-- PRODUCT LIST FOR USER -->
         <div class="product" th:each="product : ${productInfo}"> <!-- PRODUCT -->
             <div class="out-of-stock-overlay" th:if="${product.quantity == 0}" style="background: rgba(255, 0, 0, 0.7);"> <!-- OUT OF STOCK DIV -->
                 Out of Stock
@@ -105,7 +128,7 @@
             </form>
         </div> <!-- // PRODUCT -->
     </div> <!-- // PRODUCT LIST FOR USER -->
-    <div class="user-info"> <!-- USER INFO -->
+    <div class="user-info" th:if="${userInfo.roles.contains('USER')}"> <!-- USER INFO -->
         <h1>Your Shopping Cart</h1>
         <div class="cart-items" th:each="cart : ${userInfo.shoppingCart}"> <!-- CART-ITEMS -->
             <div class="cart-item" th:each="item : ${cart.items}"> <!-- CART-ITEM -->
@@ -125,11 +148,11 @@
         </div> <!-- // CART-ITEMS -->
         <form action="/clearshoppingcart" method="post">
             <input type="hidden" name="id" th:value="${userInfo.id}">
-            <button class="button" type="submit">CLEAR CART</button>
+            <button class="shoppingcartbuttons" type="submit">CLEAR CART</button>
         </form>
         <form action="/checkout" method="post">
             <input type="hidden" name="id" th:value="${userInfo.id}">
-            <button class="button" type="submit">CHECKOUT</button>
+            <button class="shoppingcartbuttons" type="submit">CHECKOUT</button>
         </form>
     </div> <!-- // USER INFO -->
 </div> <!-- // CONTENT -->

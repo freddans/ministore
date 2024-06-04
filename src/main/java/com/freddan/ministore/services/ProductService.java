@@ -51,18 +51,25 @@ public class ProductService {
     public Product createProduct(Product productInfo) {
         Product existingProduct = findProductByName(productInfo.getName());
 
+        System.out.println("Iconlink: " + productInfo.getIconlink());
+        System.out.println("Product: " + productInfo.getName());
+        System.out.println("Price: " + productInfo.getPrice());
+        System.out.println("Quantity: " + productInfo.getQuantity());
+
         if (existingProduct != null) {
+            System.out.println("product exists");
 
             logger.error("\nERROR: Product with provided name already exist.\n" +
                     "Provided name: " + productInfo.getName() + "\n");
 
             return null;
         } else {
+            System.out.println("product not found");
 
             if (productInfo.getName() != null && !productInfo.getName().isEmpty() && productInfo.getPrice() != 0 && productInfo.getQuantity() != 0) {
                 if (productInfo.getIconlink() == null || productInfo.getIconlink().isEmpty()) {
 
-                    productInfo.setIconlink("");
+                    productInfo.setIconlink("/images/icons/noimagelink.png");
 
                     Product product = new Product(productInfo.getName(), productInfo.getIconlink(), productInfo.getPrice(), productInfo.getQuantity());
 

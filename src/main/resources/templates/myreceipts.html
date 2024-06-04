@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ministore</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}"> <!-- ADMIN ROLE -->
+    <div class="admin-menu"> <!-- ADMIN MENU -->
+        <ul>
+            <li>
+                <a href="/store">Products</a>
+            </li>
+            <li>
+                <a href="/users">Users</a>
+            </li>
+            <li>
+                <a href="/logout">LOGOUT</a>
+            </li>
+        </ul>
+    </div> <!-- // ADMIN MENU -->
+</div> <!-- // ADMIN ROLE -->
+<div th:if="${#authorization.expression('hasAuthority(''USER'')')}"> <!-- ADMIN ROLE -->
+    <div class="admin-menu"> <!-- ADMIN MENU -->
+        <ul>
+            <li>
+                <a href="/store">Products</a>
+            </li>
+            <li>
+                <a href="/receipts">Receipts</a>
+            </li>
+            <li>
+                <a href="/logout">LOGOUT</a>
+            </li>
+        </ul>
+    </div> <!-- // ADMIN MENU -->
+</div> <!-- // ADMIN ROLE -->
+
+<div class="content"> <!-- CONTENT -->
+    <div class="header"> <!-- HEADER -->
+        <h1>Receipts</h1>
+    </div> <!-- // CONTENT -->
+
+    <div class="product-list" th:if="${#authorization.expression('hasAuthority(''USER'')')}"> <!-- RECEIPT LIST FOR USER -->
+        <div class="product" th:each="receipt : ${userInfo.getReceipts()}"> <!-- RECEIPT -->
+            <h2>Receipt</h2>
+            <div class="date-div">
+                Date: <p th:text="${receipt.date}"></p>
+            </div>
+            <div class="item-div">
+                Items: <p th:text="${receipt.getItemList()}"></p>
+            </div>
+            <div class="totalcost-div">
+                Cost: <p th:text="${receipt.totalCost}"></p>
+            </div>
+            </form>
+        </div> <!-- // RECEIPT -->
+    </div> <!-- // PRODUCT LIST FOR USER -->
+
+</div> <!-- // CONTENT -->
+</body>
+</html>
