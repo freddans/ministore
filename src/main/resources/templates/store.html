@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ministore</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div th:if="${userInfo.roles.contains('ADMIN')}"> <!-- ADMIN ROLE -->
+    <div class="admin-menu"> <!-- ADMIN MENU -->
+        <ul>
+            <li><a href="#">Products</a>
+                <ul class="dropdown">
+                    <li><a href="#">Add Product</a></li>
+                    <li><a href="/updateProduct">Update Product</a></li>
+                    <li><a href="/deleteProduct">Delete Product</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Users</a>
+                <ul class="dropdown">
+                    <li><a href="/addUser">Add User</a></li>
+                    <li><a href="/updateUser">Update User</a></li>
+                    <li><a href="/deleteUser">Delete User</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div> <!-- // ADMIN MENU -->
+</div> <!-- // ADMIN ROLE -->
+
+<div class="content"> <!-- CONTENT -->
+    <div class="header"> <!-- HEADER -->
+        <h1>Products</h1>
+    </div> <!-- // CONTENT -->
+    <div class="product-list" th:if="${userInfo.roles.contains('ADMIN')}"> <!-- PRODUCT LIST FOR ADMIN -->
+        <div class="product" th:each="product : ${productInfo}"> <!-- PRODUCT -->
+                <form action="/deleteProduct" method="post" align="right">
+                    <input type="hidden" name="id" th:value="${product.id}">
+                    <button type="submit" style="background-color: darkred;" align="right">DELETE</button>
+                </form>
+            <div class="out-of-stock-overlay" th:if="${product.quantity == 0}" style="background: rgba(255, 0, 0, 0.2); pointer-events: none"> <!-- OUT OF STOCK DIV -->
+                Out of Stock
+            </div> <!-- // OUT OF STOCK DIV -->
+
+            <div class="change-icon-img">
+                <img class="icon-img" th:src="${product.iconlink}" alt="Product Icon"/>
+                <form action="/updateProduct" method="post">
+                    <p>Link:
+                        <input type="hidden" name="id" th:value="${product.id}">
+                        <input type="text" name="iconlink" th:placeholder="${product.iconlink}">
+                        <button type="submit">Set Icon</button>
+                    </p>
+                </form>
+            </div>
+
+            <div class="change-product-name">
+                <form action="/updateProduct" method="post">
+                    <p>Product:
+                        <input type="hidden" name="id" th:value="${product.id}">
+                        <input type="text" name="name" th:placeholder="${product.name}">
+                        <button type="submit">Set Name</button>
+                    </p>
+                </form>
+            </div>
+
+            <div class="change-price-div">
+                <form action="/updateProduct" method="post">
+                    <p> Price: $
+                        <input type="hidden" name="id" th:value="${product.id}">
+                        <input type="number" name="price" th:value="${product.price}" min="1">
+                        <button type="submit">Set Price</button>
+                    </p>
+                </form>
+            </div>
+
+            <div class="change-quantity-div">
+
+                <form action="/updateProduct" method="post">
+                    <p> Stock:
+                        <input type="hidden" name="id" th:value="${product.id}">
+                        <input type="number" name="quantity" th:value="${product.quantity}" min="1">
+                        <button type="submit">Set Quantity</button>
+                    </p>
+                </form>
+            </div>
+        </div> <!-- // PRODUCT -->
+    </div> <!-- // PRODUCT LIST FOR ADMIN -->
+
+
+    <div class="product-list" th:if="${userInfo.roles.contains('USER')}"> <!-- PRODUCT LIST FOR USER -->
+        <div class="product" th:each="product : ${productInfo}"> <!-- PRODUCT -->
+            <div class="out-of-stock-overlay" th:if="${product.quantity == 0}" style="background: rgba(255, 0, 0, 0.7);"> <!-- OUT OF STOCK DIV -->
+                Out of Stock
+            </div> <!-- // OUT OF STOCK DIV -->
+            <img class="icon-img" th:src="${product.iconlink}" alt="Product Icon"/>
+            <h2 th:text="${product.name}"></h2>
+            <p th:text="'Price: $' + ${product.price}"></p>
+            <p th:text="'Stock: ' + ${product.quantity}"></p>
+            <form action="/addProductToCart" method="post">
+                <input type="hidden" name="id" th:value="${userInfo.id}">
+                <input type="hidden" name="productId" th:value="${product.id}">
+                <input type="number" name="quantity" value="1" min="1">
+                <button type="submit">Add to cart</button>
+            </form>
+        </div> <!-- // PRODUCT -->
+    </div> <!-- // PRODUCT LIST FOR USER -->
+    <div class="user-info"> <!-- USER INFO -->
+        <h1>Your Shopping Cart</h1>
+        <div class="cart-items" th:each="cart : ${userInfo.shoppingCart}"> <!-- CART-ITEMS -->
+            <div class="cart-item" th:each="item : ${cart.items}"> <!-- CART-ITEM -->
+                <h2 th:text="${item.name}"></h2>
+                <p th:text="'Price Per Item: $' + ${item.price}"></p>
+                <p th:text="'Quantity: ' + ${item.quantity}"></p>
+
+                <form action="/removeItem" method="post">
+                    <input type="hidden" name="id" th:value="${userInfo.id}">
+                    <input type="hidden" name="shoppingCartItemId" th:value="${item.id}">
+                    <input type="hidden" name="quantity" th:value="${item.quantity}">
+                    <button class="button" type="submit">Remove</button>
+                </form>
+
+            </div> <!-- // CART-ITEM -->
+            <p>Total Cost: <span th:text="${cart.totalCost}"></span></p>
+        </div> <!-- // CART-ITEMS -->
+        <form action="/clearshoppingcart" method="post">
+            <input type="hidden" name="id" th:value="${userInfo.id}">
+            <button class="button" type="submit">CLEAR CART</button>
+        </form>
+        <form action="/checkout" method="post">
+            <input type="hidden" name="id" th:value="${userInfo.id}">
+            <button class="button" type="submit">CHECKOUT</button>
+        </form>
+    </div> <!-- // USER INFO -->
+</div> <!-- // CONTENT -->
+</body>
+</html>

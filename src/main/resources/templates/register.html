@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ministore</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="content">
+    <div class="header">
+        <h1>User Registration</h1>
+    </div>
+    <div class="registration-form">
+        <form action="/register" method="post">
+            <div class="form-field">
+                <label>Username:</label>
+                <input type="text" name="username" placeholder="Enter Username" required>
+            </div>
+            <div class="form-field">
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="Enter Password" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit">CREATE</button>
+                <button type="button" onclick="window.location.href='/'" style="margin-top: 10px;">BACK</button>
+            </div>
+        </form>
+        <div class="error-message" th:if="${param.error}">
+            <span>ERROR: Either username already exists or both fields need to be filled</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -35,6 +35,10 @@ public class SecurityConfig {
 
                         .requestMatchers("/user/create").permitAll()
 
+                        // Web
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/register", "/login", "/", "/store").permitAll()
+
                         .anyRequest().authenticated()
                 )
 
