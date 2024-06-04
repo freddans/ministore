@@ -53,8 +53,6 @@ public class UserService {
             return optionalUser.get();
         } else {
 
-            logger.error("\nERROR: User with provided Username does not exist.\n" +
-                    "Provided Username: " + username + "\n");
             return null;
         }
     }
@@ -64,13 +62,8 @@ public class UserService {
         User existingUser = findUserByUsername(newUserInfo.getUsername());
 
         if (existingUser == null) {
-            System.out.println("user does not exist");
-
-            System.out.println("Written Username: " + newUserInfo.getUsername());
-            System.out.println("Written Password: " + newUserInfo.getPassword());
 
             if (newUserInfo.getUsername() != null && !newUserInfo.getUsername().isEmpty() && newUserInfo.getPassword() != null && !newUserInfo.getPassword().isEmpty()) {
-                System.out.println("username is not empty or null, password is not empty or null");
 
                 if (newUserInfo.getRoles() != null && !newUserInfo.getRoles().isEmpty()) {
                     newUserInfo.setRoles(newUserInfo.getRoles().toUpperCase());
@@ -92,7 +85,6 @@ public class UserService {
                     }
 
                 } else {
-                    System.out.println("roles are empty - automatic USER role");
 
                     newUserInfo.setPassword(passwordEncoder.encode(newUserInfo.getPassword()));
 
@@ -106,15 +98,13 @@ public class UserService {
 
 
             } else {
-                System.out.println("username or password is null or empty");
 
-                logger.error("\nERROR: Username or Password is either null och empty.\n");
+                logger.error("\nERROR: Username or Password is either null or empty.\n");
                 return null;
             }
         } else {
-            System.out.println("username exist already");
 
-            logger.error("\nERROR: Username already exist\n");
+            // Username already exist
             return null;
         }
     }
